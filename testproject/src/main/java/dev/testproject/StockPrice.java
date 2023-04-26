@@ -2,6 +2,7 @@ package dev.testproject;
 
 import java.io.*;
 import java.net.*;
+
 /*
  * Sure! Here's a brief description of each of the classes being imported in the example:
 - `java.io.BufferedReader`: This class reads text from a character-input stream, buffering characters
@@ -21,7 +22,7 @@ HTTP-specific features. Each instance of this class represents a single HTTP con
 
 public class StockPrice {
     public static void main(String[] args) throws IOException {
-        String apiKey = /* "YOUR_API_KEY" */"";
+        String apiKey = "YOUR_API_KEY";
         String symbol = "MSFT";
         String urlString = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=" + apiKey;
 
@@ -34,6 +35,7 @@ public class StockPrice {
         StringBuffer content = new StringBuffer();
         while ((inputLine = in.readLine()) != null) {
             content.append(inputLine);
+            //System.out.println(inputLine);
         }
         in.close();
 
