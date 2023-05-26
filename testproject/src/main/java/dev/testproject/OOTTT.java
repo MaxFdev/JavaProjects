@@ -3,29 +3,53 @@ package dev.testproject;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class OOP_TTT {
+public class OOTTT {
     public static void main(String[] args) {
         startUp();
-        OOP_TTT game = new OOP_TTT();
+        OOTTT game = new OOTTT();
         game.chooseMode();
         game.chooseTurnOrder();
+        game.chooseHelp();
         game.startGame();
     }
     
     public static void startUp() {
-        // make a start up screen
+        String print = 
+        " ________  __                  ________                          ________                   " + "\n" +
+        "|        \\|  \\                |        \\                        |        \\                  " + "\n" +
+        " \\$$$$$$$$ \\$$  _______        \\$$$$$$$$______    _______        \\$$$$$$$$______    ______  " + "\n" +
+        "   | $$   |  \\ /       \\         | $$  |      \\  /       \\         | $$  /      \\  /      \\ " + "\n" +
+        "   | $$   | $$|  $$$$$$$         | $$   \\$$$$$$\\|  $$$$$$$         | $$ |  $$$$$$\\|  $$$$$$\\" + "\n" +
+        "   | $$   | $$| $$               | $$  /      $$| $$               | $$ | $$  | $$| $$    $$" + "\n" +
+        "   | $$   | $$| $$_____          | $$ |  $$$$$$$| $$_____          | $$ | $$__/ $$| $$$$$$$$" + "\n" +
+        "   | $$   | $$ \\$$     \\         | $$  \\$$    $$ \\$$     \\         | $$  \\$$    $$ \\$$     \\" + "\n" +
+        "    \\$$    \\$$  \\$$$$$$$          \\$$   \\$$$$$$$  \\$$$$$$$          \\$$   \\$$$$$$   \\$$$$$$$" + "\n\n";
+        System.out.print("\u001B[32m");
+        for (char c : print.toCharArray()) {
+            System.out.print(c);
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Something went wrong.");
+            }
+        }
+        System.out.print("\033[0m");
     }
 
     public static void clear() {
-        System.out.println(""); // clear the terminal
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
     
     private Scanner scanner;
     private boolean againstBot;
+    private boolean hardBot;
     private boolean defaultOrder;
+    private boolean needHelp;
     private Board board;
     
-    public OOP_TTT() {
+    public OOTTT() {
         this.scanner = new Scanner(System.in);
         this.againstBot = false;
         this.defaultOrder = true;
@@ -33,16 +57,36 @@ public class OOP_TTT {
     }
 
     public void chooseMode() {
-        System.out.println("Do you want to pkay against a bot?[y/n]: ");
+        System.out.println("Do you want to play against a bot?[y/n]: ");
         String input = this.scanner.nextLine();
         input = input.toLowerCase();
         if (input.matches("[yn]") && input.length() == 1) {
             switch (input) {
                 case "y" -> {
                     this.againstBot = true;
+                    getBotDiffculty();
                 }
                 case "n" -> {
                     this.againstBot = false;
+                }
+            }
+        } else {
+            System.out.println("Input was invalid, please try again.");
+            chooseMode();
+        }
+    }
+
+    public void getBotDiffculty() {
+        System.out.println("Do you want to play against the hard bot?[y/n]: ");
+        String input = this.scanner.nextLine();
+        input = input.toLowerCase();
+        if (input.matches("[yn]") && input.length() == 1) {
+            switch (input) {
+                case "y" -> {
+                    this.hardBot = true;
+                }
+                case "n" -> {
+                    this.hardBot = false;
                 }
             }
         } else {
@@ -69,15 +113,42 @@ public class OOP_TTT {
             chooseTurnOrder();
         }
     }
+
+    public void chooseHelp() {
+        System.out.println("Do you want to learn how to play?[y/n]: ");
+        String input = this.scanner.nextLine();
+        input = input.toLowerCase();
+        if (input.matches("[yn]") && input.length() == 1) {
+            switch (input) {
+                case "y" -> {
+                    this.needHelp = true;
+                }
+                case "n" -> {
+                    this.needHelp = false;
+                }
+            }
+        } else {
+            System.out.println("Input was invalid, please try again.");
+            chooseHelp();
+        }
+    }
     
     public void startGame() {
         clear();
+        if (this.needHelp) {
+            help();
+        }
         // print board
-        // get input/turn
+        // get input/turn (make bot, easy and hard version)
         // check for problems
         // process
         // check for wins (after 3 turns)
-        // back to input
+        // back to input or end game
+        // restart or exit
+    }
+
+    public void help() {
+        // make a help screen
     }
 
     public class Board {
@@ -137,6 +208,11 @@ public class OOP_TTT {
             } else
                 return false;
         }
+
+        @Override
+        public String toString() {
+            return "O";
+        }
     }
     
     public class X implements BoardEntry {
@@ -169,6 +245,11 @@ public class OOP_TTT {
                 return this.position.equals(((X) other).getPosition());
             } else
                 return false;
+        }
+
+        @Override
+        public String toString() {
+            return "X";
         }
     }
 }
