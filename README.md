@@ -1,2 +1,2 @@
 # JavaProjects
- Random java projects.
+ Random java test projects.
