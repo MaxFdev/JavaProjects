@@ -205,8 +205,9 @@ public class OOTTT {
         public boolean equals(Object other) {
             if (other instanceof O) {
                 return this.position.equals(((O) other).getPosition());
-            } else
+            } else {
                 return false;
+            }
         }
 
         @Override
@@ -243,8 +244,9 @@ public class OOTTT {
         public boolean equals(Object other) {
             if (other instanceof X) {
                 return this.position.equals(((X) other).getPosition());
-            } else
+            } else{
                 return false;
+            }
         }
 
         @Override
